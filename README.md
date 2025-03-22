@@ -1,20 +1,28 @@
 # thesis-gpt
 
-[![PyPI - Version](https://img.shields.io/pypi/v/thesis-gpt.svg)](https://pypi.org/project/thesis-gpt)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/thesis-gpt.svg)](https://pypi.org/project/thesis-gpt)
+This project is work-in-progress and contains code to create a RAG-based LLM app that can chat with a `PDF` doc. It uses `docling` and `weaviate` to parse the document(s) and create a vector db.
+  
+## Setting Up Project
 
------
+This project uses [Hatch](https://hatch.pypa.io/latest/) for environment management and dependency installation. To get started, install Hatch:
 
-## Table of Contents
-
-- [Installation](#installation)
-- [License](#license)
-
-## Installation
-
-```console
-pip install thesis-gpt
 ```
+pip install hatch
+```
+
+Then, create the environment:
+
+```
+hatch env create
+```
+
+Activate the environment:
+
+```bash
+hatch shell
+```
+
+For more details, refer to the [Hatch documentation](https://hatch.pypa.io/latest/).
 
 ## License
 
