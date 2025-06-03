@@ -29,6 +29,7 @@ class ThesisPrompt:
         Rules:
         - If the question involves images or figures, state that images are not available and describe only captions if present.
         - If the question is unrelated to the thesis, clearly say it cannot be answered.
+        - If asked about the doctoral committee, also include names of the promotor and co-promotors if available.
         """
 
 
