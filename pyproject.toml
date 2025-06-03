@@ -24,7 +24,20 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+  "langchain>=0.3,<0.4",
+  "jupyter",
+  "ipykernel",
+  "pip",
+  "TexSoup>=0.3.1",
+  "beartype",
+  "weaviate-client>=4.0.0",
+  "python-dotenv",
+  "streamlit",
+]
+
+[tool.hatch.envs.default]
+installer = "uv"
 
 [project.urls]
 Documentation = "https://github.com/U.N. Owen/thesis-gpt#readme"
