@@ -12,7 +12,7 @@ if "show_info" not in st.session_state:
     st.session_state.show_info = True
 
 if st.session_state.show_info:
-    with st.expander("ℹ️ About this chatbot (click to hide)", expanded=True):
+    with st.expander("ℹ️ About this chatbot", expanded=True):
         st.markdown("""
         - This chatbot is **stateless** — it does not remember previous messages.  
           Follow-up questions may not be understood unless they’re self-contained.
