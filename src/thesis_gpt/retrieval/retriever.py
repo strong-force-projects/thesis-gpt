@@ -55,7 +55,7 @@ class ThesisRetriever:
             str: The generated response based on the retrieved chunks.
         """
         collection = self.db_client.client.collections.get("thesis_chunks")
-        response = collection.generate.hybrid(
+        response = collection.generate.near_text(
             query=query,
             limit=3,
             grouped_task=ThesisPrompt(query).system,
