@@ -18,6 +18,7 @@ if st.session_state.show_info:
           Follow-up questions may not be understood unless they’re self-contained.
         - The model **cannot interpret or retrieve images** from the thesis.  
           If a section refers to a figure, the assistant may describe its caption only.
+        - It does best with **specific** questions, rather than broad **summarizing** questions. 
         - The responses are based entirely on the content of the thesis.
         """)
 
