@@ -2,7 +2,7 @@
 
 Streamlit app available [here](https://mainpy-7d8mfhrvogmu7jywq5xzwx.streamlit.app/).
 
-This project is work-in-progress and contains code to create a RAG-based LLM app that can chat with a `PDF` doc. It uses `docling` and `weaviate` to parse the document(s) and create a vector db.
+This project is work-in-progress and contains code to create a RAG-based LLM app that can chat with a `PDF` doc. It uses `langchain` and `weaviate` to parse the document(s) and create a vector db.
   
 ## Setting Up Project
 
