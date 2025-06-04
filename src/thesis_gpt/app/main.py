@@ -20,6 +20,7 @@ if st.session_state.show_info:
           If a section refers to a figure, the assistant may describe its caption only.
         - It does best with **specific** questions, rather than broad **summarizing** questions. 
         - The responses are based entirely on the content of the thesis.
+        - Code available [here](https://github.com/strong-force-projects/thesis-gpt).
         """)
 
 st.title("🎓 Chat with Boje's PhD Thesis", anchor=False)
