@@ -26,7 +26,7 @@ if st.session_state.show_info:
 
 st.title("🎓 Chat with Boje's PhD Thesis", anchor=False)
 
-# 🧠 State init
+# State init
 if "history" not in st.session_state:
     st.session_state.history = []
 if "pending_response" not in st.session_state:
@@ -35,8 +35,7 @@ if "suggestions_shown" not in st.session_state:
     st.session_state.suggestions_shown = True
 
 
-# 🤖 Backend
-response_generator = ThesisRetriever()
+# Backend
 
 if st.session_state.suggestions_shown:
     # 💡 Suggested Questions
@@ -57,15 +56,15 @@ if st.session_state.suggestions_shown:
             st.session_state.suggestions_shown = False
             st.rerun()
 
-# 🔁 Handle pending response from suggestion or rerun
+# Handle pending response from suggestion or rerun
 if st.session_state.pending_response:
     query, _ = st.session_state.history[-1]
     with st.spinner("Thinking..."):
-        answer = response_generator.retrieve(query)
+        answer = ThesisRetriever.retrieve(query)
     st.session_state.history[-1] = (query, answer)
     st.session_state.pending_response = False
 
-# 💬 Manual chat input
+# Manual chat input
 query = st.chat_input("Ask something about the thesis...")
 if query:
     st.session_state.history.append((query, ""))
@@ -73,7 +72,7 @@ if query:
     st.session_state.suggestions_shown = False
     st.rerun()
 
-# 📜 Display chat history
+# Display chat history
 for q, a in st.session_state.history:
     st.chat_message("user").write(q)
     if a:

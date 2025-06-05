@@ -1,6 +1,7 @@
 import logging
 import os
 from dataclasses import dataclass
+from beartype import beartype
 
 from dotenv import load_dotenv
 
@@ -34,7 +35,7 @@ class ThesisPrompt:
         - If the question is unrelated to the thesis, clearly say it cannot be answered.
         """
 
-
+@beartype
 class ThesisRetriever:
     """
     A class to retrieve information from a thesis using Weaviate as a vector store.
@@ -42,12 +43,8 @@ class ThesisRetriever:
     These chunks are then used to generate a response that summarizes the relevant information.
     """
 
-    def __init__(self):
-        self.db_client = WeaviateDB(
-            headers={"X-Openai-Api-Key": os.getenv("OPENAI_APIKEY")}
-        )
-
-    def retrieve(self, query: str):
+    @staticmethod
+    def retrieve(query: str):
         """
         Retrieve relevant chunks from the thesis based on the provided query.
         Args:
@@ -55,19 +52,21 @@ class ThesisRetriever:
         Returns:
             str: The generated response based on the retrieved chunks.
         """
-        collection = self.db_client.client.collections.get("thesis_chunks")
-        response = collection.generate.near_text(
-            query=query,
-            limit=5,
-            grouped_task=ThesisPrompt(query).system,
-            return_properties=[
-                "chapter",
-                "section",
-                "subsection",
-                "subsubsection",
-                "paragraph",
-            ],
-        )
-        self.db_client.close()
-        logger.info(f"Querying Weaviate with: {query}")
+        with WeaviateDB(
+            headers={"X-Openai-Api-Key": os.getenv("OPENAI_APIKEY")}
+        ) as db_client:
+            collection = db_client.client.collections.get("thesis_chunks")
+            response = collection.generate.near_text(
+                query=query,
+                limit=5,
+                grouped_task=ThesisPrompt(query).system,
+                return_properties=[
+                    "chapter",
+                    "section",
+                    "subsection",
+                    "subsubsection",
+                    "paragraph",
+                ],
+            )
+            logger.info(f"Querying Weaviate with: {query}")
         return response.generated
