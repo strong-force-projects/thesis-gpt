@@ -22,6 +22,8 @@ class ThesisPrompt:
     def __post_init__(self):
         self.system = f"""
         You are an academic assistant. Use the following retrieved text fragments from a PhD thesis to answer the question below.
+        Additionally, you can use the context provided in this system prompt to help answer the question.
+        The PhD thesis is titled Advances in Machine Learning for Sensor Data with Applications in Smart Agriculture and Beyond.
         Only use information present in the text. If the answer is not clearly present in the text, say so and ask the user to rephrase the question and elaborate.
         The text may contain latex formatting, which you should clean up before using it in your response into a format suitable to show in a Streamlit app.
         
@@ -56,7 +58,7 @@ class ThesisRetriever:
         collection = self.db_client.client.collections.get("thesis_chunks")
         response = collection.generate.near_text(
             query=query,
-            limit=3,
+            limit=5,
             grouped_task=ThesisPrompt(query).system,
             return_properties=[
                 "chapter",
