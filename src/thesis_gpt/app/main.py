@@ -41,7 +41,6 @@ if st.session_state.suggestions_shown:
     # 💡 Suggested Questions
     st.markdown("#### 💡 Suggested Questions")
 
-    col1, col2, col3, col4 = st.columns(4)
     suggestions = [
         "What is MultiMix?",
         "Who is in the Doctoral Committee?",
@@ -49,7 +48,8 @@ if st.session_state.suggestions_shown:
         "What loss function is used in MultiMix?",
     ]
 
-    for col, suggestion in zip([col1, col2, col3, col4], suggestions):
+    cols = st.columns(len(suggestions))
+    for col, suggestion in zip(cols, suggestions):
         if col.button(suggestion):
             st.session_state.history.append((suggestion, ""))
             st.session_state.pending_response = True
