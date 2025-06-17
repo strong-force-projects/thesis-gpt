@@ -25,7 +25,10 @@ class ThesisCollection:
         if reset and client.collections.exists(name):
             client.collections.delete(name)
 
-        self.collection = self._create_collection()
+        if not client.collections.exists(name):
+            self.collection = self._create_collection()
+        else:
+            self.collection = client.collections.get(name)
 
     def _create_collection(self) -> Collection:
         """
@@ -91,7 +94,34 @@ class ThesisCollection:
         data_object = wvc.data.DataObject(properties=data_properties)
         return data_object
 
-    def query_by_chapter(self, chapter_title: str):
-        return self.collection.query.near_text(
-            query="chunk about " + chapter_title, limit=5
-        )
+    def add_manual_chunk(
+        self,
+        text: str,
+        chapter: str = "Manual Addition",
+        section: str | None = None,
+        subsection: str | None = None,
+        subsubsection: str | None = None,
+        paragraph: str | None = None,
+    ):
+        """
+        Manually add a chunk to the collection with optional metadata.
+    
+        Args:
+            text (str): The text content of the chunk.
+            chapter (str): Chapter name for the chunk. Defaults to "Manual Addition".
+            section (str, optional): Section title. Defaults to None.
+            subsection (str, optional): Subsection title. Defaults to None.
+            subsubsection (str, optional): Subsubsection title. Defaults to None.
+            paragraph (str, optional): Paragraph title. Defaults to None.
+        """
+        chunk_index = self.collection.aggregate.over_all(total_count=True).total_count
+        data_properties = {
+            "chunk": text,
+            "chapter": chapter,
+            "section": section,
+            "subsection": subsection,
+            "subsubsection": subsubsection,
+            "paragraph": paragraph,
+            "chunk_index": chunk_index,
+        }
+        self.collection.data.insert(properties=data_properties)
