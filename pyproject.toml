@@ -34,6 +34,8 @@ dependencies = [
   "weaviate-client>=4.0.0",
   "python-dotenv",
   "streamlit",
+  "gspread",
+  "google-auth",
 ]
 
 [tool.hatch.envs.default]
