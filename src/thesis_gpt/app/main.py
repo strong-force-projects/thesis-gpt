@@ -1,11 +1,17 @@
 import streamlit as st
 
+from thesis_gpt.app.consent import ConsentManager
+from thesis_gpt.app.logger import Logger
 from thesis_gpt.retrieval.retriever import ThesisRetriever
 
 response_generator = ThesisRetriever()
 
-# 🎓 Page setup
+# Page setup
 st.set_page_config(page_title="Thesis Chat", layout="centered")
+
+ConsentManager.init()
+ConsentManager.render()
+ConsentManager.logging_status_badge()
 
 # Info box
 if "show_info" not in st.session_state:
@@ -63,6 +69,7 @@ if st.session_state.pending_response:
         answer = ThesisRetriever.retrieve(query)
     st.session_state.history[-1] = (query, answer)
     st.session_state.pending_response = False
+    Logger.log(query, answer)
 
 # Manual chat input
 query = st.chat_input("Ask something about the thesis...")
