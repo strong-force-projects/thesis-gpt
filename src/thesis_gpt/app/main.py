@@ -18,7 +18,7 @@ if "show_info" not in st.session_state:
     st.session_state.show_info = True
 
 if st.session_state.show_info:
-    with st.expander("ℹ️ About this chatbot", expanded=True):
+    with st.expander("ℹ️ About this chatbot", expanded=False):
         st.markdown("""
         - This is an MVP, there are many ideas for improvements.
         - This chatbot is **stateless** — it does not remember previous messages.  
@@ -69,7 +69,7 @@ if st.session_state.pending_response:
         answer = ThesisRetriever.retrieve(query)
     st.session_state.history[-1] = (query, answer)
     st.session_state.pending_response = False
-    Logger.log(query, answer)
+    Logger.log(query, answer, st.session_state.get("native_language", None))
 
 # Manual chat input
 query = st.chat_input("Ask something about the thesis...")

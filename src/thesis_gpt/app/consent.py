@@ -22,7 +22,7 @@ class ConsentManager:
 
         with st.expander("🔐 Data Collection Notice", expanded=True):
             st.markdown("""
-            This chatbot logs your **questions**, **answers**, **public IP address**, and **approximate location** for research purposes only.
+            This chatbot logs your **questions** and **answers** for research purposes only.
 
             We do **not** collect names, emails, or sensitive data unless you include them in your prompt.
 
@@ -30,6 +30,9 @@ class ConsentManager:
 
             🔓 **Logging is optional**. You can still use the chatbot even if you don’t consent.
             """)
+            st.markdown("##### 🌐 Optional: What is your native language?")
+            native_lang = st.text_input("Leave blank if you prefer not to say.")
+            st.session_state.native_language = native_lang
             col1, col2 = st.columns(2)
             with col1:
                 if st.button("✅ I consent to logging"):

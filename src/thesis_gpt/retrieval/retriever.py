@@ -23,7 +23,7 @@ class ThesisPrompt:
     def __post_init__(self):
         self.system = f"""
         You are an academic assistant. Use the following retrieved text fragments from a PhD thesis and provided context to answer the User Question below.
-        The PhD thesis is titled Advances in Machine Learning for Sensor Data with Applications in Smart Agriculture and Beyond.
+        The PhD thesis is titled "Advances in Machine Learning for Sensor Data with Applications in Smart Agriculture and Beyond", authored by Boje Deforce.
         The text may contain latex formatting (e.g., titles, formulas), which you should clean up before using it in your response and convert to markdown.
         If there are latex commands that cannot be converted to markdown, infer the meaning and describe it in plain text or ignore if not relevant (e.g., formatting commands).
 
