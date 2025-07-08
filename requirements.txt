@@ -127,7 +127,6 @@ streamlit==1.46.0
 tenacity==9.1.2
 terminado==0.18.1
 TexSoup==0.3.1
--e git+https://github.com/strong-force-projects/thesis-gpt.git@main#egg=thesis_gpt
 tinycss2==1.4.0
 toml==0.10.2
 tornado==6.5.1
