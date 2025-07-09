@@ -28,6 +28,7 @@ if st.session_state.show_info:
         - It does best with **specific** questions, rather than broad **summarizing** questions. 
         - The responses are based entirely on the content of the thesis.
         - Code available [here](https://github.com/strong-force-projects/thesis-gpt).
+        - Full thesis available [here](https://lirias.kuleuven.be/4233901&lang=en)
         """)
 
 st.title("🎓 Chat with Boje's PhD Thesis", anchor=False)
