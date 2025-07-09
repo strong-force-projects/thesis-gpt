@@ -20,7 +20,7 @@ class ConsentManager:
         if st.session_state.get("allow_logging") is not None:
             return None
 
-        with st.expander("🔐 Data Collection Notice", expanded=True):
+        with st.expander("🔐 Data Collection Notice", expanded=False):
             st.markdown("""
             This chatbot logs your **questions** and **answers** for research purposes only.
 
