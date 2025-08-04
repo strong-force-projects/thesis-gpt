@@ -16,11 +16,10 @@ class ThesisCollection:
         reset (bool): If True, resets the collection by deleting it if it exists. Defaults to False.
     """
 
-    def __init__(
-        self, client: weaviate.client.WeaviateClient, name: str, reset: bool = False
-    ):
+    def __init__(self, client: weaviate.client.WeaviateClient, name: str, reset: bool = False):
         self.client = client
         self.name = name
+        self.model = "gpt-4o"
 
         if reset and client.collections.exists(name):
             client.collections.delete(name)
@@ -29,6 +28,12 @@ class ThesisCollection:
             self.collection = self._create_collection()
         else:
             self.collection = client.collections.get(name)
+            current_model = self.collection.config.get("generative").get("model")
+
+            if current_model != self.model:
+                self.collection.config.update(
+                    generative_config=wvc.config.Configure.Generative.openai(model=self.model)
+                )
 
     def _create_collection(self) -> Collection:
         """
@@ -42,21 +47,13 @@ class ThesisCollection:
                 wvc.config.Property(name="chunk", data_type=wvc.config.DataType.TEXT),
                 wvc.config.Property(name="chapter", data_type=wvc.config.DataType.TEXT),
                 wvc.config.Property(name="section", data_type=wvc.config.DataType.TEXT),
-                wvc.config.Property(
-                    name="subsection", data_type=wvc.config.DataType.TEXT
-                ),
-                wvc.config.Property(
-                    name="subsubsection", data_type=wvc.config.DataType.TEXT
-                ),
-                wvc.config.Property(
-                    name="paragraph", data_type=wvc.config.DataType.TEXT
-                ),
-                wvc.config.Property(
-                    name="chunk_index", data_type=wvc.config.DataType.INT
-                ),
+                wvc.config.Property(name="subsection", data_type=wvc.config.DataType.TEXT),
+                wvc.config.Property(name="subsubsection", data_type=wvc.config.DataType.TEXT),
+                wvc.config.Property(name="paragraph", data_type=wvc.config.DataType.TEXT),
+                wvc.config.Property(name="chunk_index", data_type=wvc.config.DataType.INT),
             ],
             vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_openai(),
-            generative_config=wvc.config.Configure.Generative.openai(),
+            generative_config=wvc.config.Configure.Generative.openai(model=self.model),
         )
 
     def init_chunk(
@@ -105,7 +102,7 @@ class ThesisCollection:
     ):
         """
         Manually add a chunk to the collection with optional metadata.
-    
+
         Args:
             text (str): The text content of the chunk.
             chapter (str): Chapter name for the chunk. Defaults to "Manual Addition".

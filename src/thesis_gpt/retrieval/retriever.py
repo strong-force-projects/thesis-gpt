@@ -22,17 +22,27 @@ class ThesisPrompt:
 
     def __post_init__(self):
         self.system = f"""
-        You are an academic assistant. Use the following retrieved text fragments from a PhD thesis and provided context to answer the User Question below.
-        The PhD thesis is titled "Advances in Machine Learning for Sensor Data with Applications in Smart Agriculture and Beyond", authored by Boje Deforce.
-        The text may contain latex formatting (e.g., titles, formulas), which you should clean up before using it in your response and convert to markdown.
-        If there are latex commands that cannot be converted to markdown, infer the meaning and describe it in plain text or ignore if not relevant (e.g., formatting commands).
+        You are an academic assistant helping answer questions based on retrieved text fragments from a PhD thesis.
+
+        Thesis title: "Advances in Machine Learning for Sensor Data with Applications in Smart Agriculture and Beyond"  
+        Author: Boje Deforce
+
+        Guidelines:
+        1. Use only the retrieved text fragments and provided context to answer the question. Do not use outside knowledge.
+        2. If relevant information is clearly missing in the retrieved text, state this clearly and ask the user to rephrase or elaborate. 
+        Though, you can use the context to infer missing information but only do so if it is clearly implied in the text.
+        3. If LaTeX formatting is present:
+        - Convert it to clean Markdown where possible.
+        - If conversion is not possible, explain the meaning in plain text or omit purely formatting commands.
+        4. If images or figures are referenced:
+        - State that images are unavailable.
+        - Describe captions if present.
+        5. If the retrieved text references different sections of the thesis, try to provide a coherent answer that connects the information.
+        6. If the question is too broad or requires summarization, answer the question as best as possible, but suggest the user to ask more specific questions for better answers.
 
         User Question: "{self.query}"
-
-        Rules:
-        - If the question involves images or figures, state that images are not available and describe only captions if present.
-        - Only use information present in the retreived text. If the answer is not clearly present in the text, say so and ask the user to rephrase the question and elaborate.
         """
+
 
 @beartype
 class ThesisRetriever:
@@ -51,9 +61,7 @@ class ThesisRetriever:
         Returns:
             str: The generated response based on the retrieved chunks.
         """
-        with WeaviateDB(
-            headers={"X-Openai-Api-Key": os.getenv("OPENAI_APIKEY")}
-        ) as db_client:
+        with WeaviateDB(headers={"X-Openai-Api-Key": os.getenv("OPENAI_APIKEY")}) as db_client:
             collection = db_client.client.collections.get("thesis_chunks")
             response = collection.generate.near_text(
                 query=query,
